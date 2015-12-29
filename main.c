@@ -9,8 +9,8 @@ main (argc, argv)
   char **argv;
 {
   GtkWidget *window, *leaderboard, *leader_list;
-  int player_count, result = 0;
-  Player *players;
+  int player_count = 0, result = 0;
+  Player *players = NULL;
   sqlite3 *db;
 
   gtk_init(&argc, &argv);
@@ -51,6 +51,7 @@ main (argc, argv)
   gtk_main();
 
 exit:
+  players_free(players, player_count);
   sqlite3_close(db);
   return result;
 }

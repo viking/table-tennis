@@ -21,5 +21,6 @@ typedef struct {
 
 int players_count(sqlite3 *db);
 Player *players_find(sqlite3 *db);
+void players_free(Player *players, int count);
 
 #endif

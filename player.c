@@ -114,3 +114,28 @@ players_find(db)
   sqlite3_finalize(stmt);
   return values;
 };
+
+void
+players_free(players, count)
+  Player *players;
+  int count;
+{
+  if (players == NULL) {
+    return;
+  }
+
+  for (int i = 0; i < count; i++) {
+    if (players[i].rfid != NULL) {
+      free(players[i].rfid);
+    }
+
+    if (players[i].name != NULL) {
+      free(players[i].name);
+    }
+
+    if (players[i].image != NULL) {
+      free(players[i].image);
+    }
+  }
+  free(players);
+}
