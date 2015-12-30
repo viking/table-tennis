@@ -22,6 +22,7 @@ typedef struct {
 
 int players_count(sqlite3 *db);
 Player *players_find(sqlite3 *db);
+void players_sort_by_elo(Player *players, int count);
 void players_free(Player *players, int count);
 
 #endif

@@ -39,6 +39,7 @@ main (argc, argv)
     result = 1;
     goto exit;
   }
+  players_sort_by_elo(players, player_count);
 
   /* Get games */
   game_count = games_count(db);

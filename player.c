@@ -114,7 +114,33 @@ players_find(db)
 
   sqlite3_finalize(stmt);
   return values;
-};
+}
+
+static int
+compare_elo(p1, p2)
+  void *p1;
+  void *p2;
+{
+  Player *player_1 = (Player *)p1;
+  Player *player_2 = (Player *)p2;
+
+  /* Reverse sort */
+  if (player_1->elo < player_2->elo) {
+    return 1;
+  } if (player_1->elo > player_2->elo) {
+    return -1;
+  } else {
+    return 0;
+  }
+}
+
+void
+players_sort_by_elo(players, count)
+  Player *players;
+  int count;
+{
+  qsort((void *)players, count, sizeof(Player), compare_elo);
+}
 
 void
 players_free(players, count)
