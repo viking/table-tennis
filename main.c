@@ -14,6 +14,7 @@ main (argc, argv)
   int player_count = 0, game_count = 0, result = 0;
   Player *players = NULL;
   Game *games = NULL;
+  Stats *stats = NULL;
   sqlite3 *db;
 
   gtk_init(&argc, &argv);
@@ -33,6 +34,11 @@ main (argc, argv)
     goto exit;
   }
   players = players_find(db);
+  if (player_count > 0 && players == NULL) {
+    g_print("Error fetching players\n");
+    result = 1;
+    goto exit;
+  }
 
   /* Get games */
   game_count = games_count(db);
@@ -42,6 +48,14 @@ main (argc, argv)
     goto exit;
   }
   games = games_find(db);
+  if (game_count > 0 && games == NULL) {
+    g_print("Error fetching games\n");
+    result = 1;
+    goto exit;
+  }
+
+  /* Calculate stats */
+  stats = stats_new(players, player_count, games, game_count);
 
   /* Setup main window */
   window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -54,10 +68,18 @@ main (argc, argv)
   leaderboard = gtk_grid_new();
 
   leader_list = leader_list_new(players, player_count);
+  gtk_widget_set_hexpand(leader_list, TRUE);
+  gtk_widget_set_vexpand(leader_list, TRUE);
+  gtk_widget_set_halign(leader_list, GTK_ALIGN_FILL);
+  gtk_widget_set_valign(leader_list, GTK_ALIGN_FILL);
   gtk_grid_attach(GTK_GRID(leaderboard), leader_list, 0, 0, 1, 1);
   gtk_widget_show(leader_list);
 
-  stat_list = stat_list_new(players, player_count, games, game_count);
+  stat_list = stat_list_new(stats);
+  gtk_widget_set_hexpand(stat_list, TRUE);
+  gtk_widget_set_vexpand(stat_list, TRUE);
+  gtk_widget_set_halign(stat_list, GTK_ALIGN_FILL);
+  gtk_widget_set_valign(stat_list, GTK_ALIGN_FILL);
   gtk_grid_attach(GTK_GRID(leaderboard), stat_list, 1, 0, 1, 1);
   gtk_widget_show(stat_list);
 
@@ -69,6 +91,7 @@ main (argc, argv)
 exit:
   players_free(players, player_count);
   games_free(games, game_count);
+  stats_free(stats);
   sqlite3_close(db);
   return result;
 }

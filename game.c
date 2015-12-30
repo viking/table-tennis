@@ -24,7 +24,7 @@ setup_table(db)
     return SQLITE_OK;
   }
 
-  result = sqlite3_prepare_v2(db, "CREATE TABLE games (id INTEGER PRIMARY KEY, player0_id INTEGER, player1_id INTEGER, start TEXT, end TEXT, duration INTEGER, player0_score INTEGER, player1_score INTEGER, score_delta INTEGER, winner_id INTEGER);", -1, &stmt, NULL);
+  result = sqlite3_prepare_v2(db, "CREATE TABLE games (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, player0_id INTEGER, player1_id INTEGER, start TEXT, end TEXT, duration INTEGER, player0_score INTEGER, player1_score INTEGER, score_delta INTEGER, winner_id INTEGER);", -1, &stmt, NULL);
   if (result != SQLITE_OK) {
     return result;
   }
@@ -81,7 +81,7 @@ games_find(db)
     return NULL;
   }
 
-  result = sqlite3_prepare_v2(db, "SELECT id, player0_id, player1_id, start, end, duration, player0_score, player1_score, score_delta, winner_id) FROM games;", -1, &stmt, NULL);
+  result = sqlite3_prepare_v2(db, "SELECT id, player0_id, player1_id, start, end, duration, player0_score, player1_score, score_delta, winner_id FROM games;", -1, &stmt, NULL);
   if (result != SQLITE_OK) {
     return NULL;
   }
@@ -104,10 +104,11 @@ games_find(db)
     text = (char *)sqlite3_column_text(stmt, 4);
     values[i].end = text == NULL ? NULL : strdup(text);
 
-    values[i].player0_score = sqlite3_column_int(stmt, 5);
-    values[i].player1_score = sqlite3_column_int(stmt, 6);
-    values[i].score_delta = sqlite3_column_int(stmt, 7);
-    values[i].winner_id = sqlite3_column_int(stmt, 8);
+    values[i].duration = sqlite3_column_int(stmt, 5);
+    values[i].player0_score = sqlite3_column_int(stmt, 6);
+    values[i].player1_score = sqlite3_column_int(stmt, 7);
+    values[i].score_delta = sqlite3_column_int(stmt, 8);
+    values[i].winner_id = sqlite3_column_int(stmt, 9);
   }
 
   sqlite3_finalize(stmt);

@@ -24,7 +24,7 @@ setup_table(db)
     return SQLITE_OK;
   }
 
-  result = sqlite3_prepare_v2(db, "CREATE TABLE players (id INTEGER PRIMARY KEY, rfid TEXT, name TEXT, gender INTEGER, elo INTEGER, image TEXT, play_count INTEGER, guest INTEGER);", -1, &stmt, NULL);
+  result = sqlite3_prepare_v2(db, "CREATE TABLE players (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT, rfid TEXT, name TEXT, gender INTEGER, elo INTEGER, image TEXT, play_count INTEGER, guest INTEGER);", -1, &stmt, NULL);
   if (result != SQLITE_OK) {
     return result;
   }
@@ -81,7 +81,7 @@ players_find(db)
     return NULL;
   }
 
-  result = sqlite3_prepare_v2(db, "SELECT id, rfid, name, gender, elo, image, play_count FROM players;", -1, &stmt, NULL);
+  result = sqlite3_prepare_v2(db, "SELECT id, rfid, name, gender, elo, image, play_count, guest FROM players;", -1, &stmt, NULL);
   if (result != SQLITE_OK) {
     return NULL;
   }
