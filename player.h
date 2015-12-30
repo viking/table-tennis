@@ -9,6 +9,7 @@ typedef struct {
   int id;
   int elo;
   int play_count;
+  int guest;
   char *rfid;
   char *name;
   char *image;

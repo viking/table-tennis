@@ -1,11 +1,5 @@
 #include "leader_list.h"
 
-enum {
-  RANK_COLUMN,
-  PLAYER_COLUMN,
-  N_COLUMNS
-};
-
 GtkWidget *
 leader_list_new(players, player_count)
   Player *players;
@@ -21,8 +15,8 @@ leader_list_new(players, player_count)
   for (int i = 0; i < player_count; i++ ){
     gtk_list_store_append(leaders, &iter);
     gtk_list_store_set(leaders, &iter,
-        RANK_COLUMN, i + 1,
-        PLAYER_COLUMN, players[i].name,
+        LEADER_LIST_RANK_COLUMN, i + 1,
+        LEADER_LIST_PLAYER_COLUMN, players[i].name,
         -1);
   }
 
@@ -31,12 +25,12 @@ leader_list_new(players, player_count)
 
   rank_renderer = gtk_cell_renderer_text_new();
   rank_column = gtk_tree_view_column_new_with_attributes("Rank",
-      rank_renderer, "text", RANK_COLUMN, NULL);
+      rank_renderer, "text", LEADER_LIST_RANK_COLUMN, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(leader_list), rank_column);
 
   player_renderer = gtk_cell_renderer_text_new();
   player_column = gtk_tree_view_column_new_with_attributes("Player",
-      player_renderer, "text", PLAYER_COLUMN, NULL);
+      player_renderer, "text", LEADER_LIST_PLAYER_COLUMN, NULL);
   gtk_tree_view_append_column(GTK_TREE_VIEW(leader_list), player_column);
 
   return leader_list;
