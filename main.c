@@ -11,6 +11,8 @@ main (argc, argv)
   char **argv;
 {
   GtkWidget *window, *leaderboard, *leader_list, *stat_list;
+  GdkScreen *screen;
+  GtkCssProvider *css;
   int player_count = 0, game_count = 0, result = 0;
   Player *players = NULL;
   Game *games = NULL;
@@ -64,6 +66,15 @@ main (argc, argv)
   gtk_window_set_decorated(GTK_WINDOW(window), FALSE);
   gtk_window_set_default_size(GTK_WINDOW(window), WWIDTH, WHEIGHT);
   g_signal_connect(window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+  /* Setup styles */
+  screen = gtk_widget_get_screen(window);
+  css = gtk_css_provider_new();
+  if (gtk_css_provider_load_from_data(css, "GtkTreeView { font-size: 150%; background-color: #333; color: white; }", -1, NULL) == TRUE) {
+    gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_USER);
+  } else {
+    g_print("Failed to load CSS\n");
+  }
 
   /* Setup leaderboard */
   leaderboard = gtk_grid_new();
