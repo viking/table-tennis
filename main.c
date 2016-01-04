@@ -70,7 +70,7 @@ main (argc, argv)
   /* Setup styles */
   screen = gtk_widget_get_screen(window);
   css = gtk_css_provider_new();
-  if (gtk_css_provider_load_from_data(css, "GtkTreeView { font-size: 150%; background-color: #333; color: white; }", -1, NULL) == TRUE) {
+  if (gtk_css_provider_load_from_path(css, "table-tennis.css", NULL) == TRUE) {
     gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(css), GTK_STYLE_PROVIDER_PRIORITY_USER);
   } else {
     g_print("Failed to load CSS\n");
