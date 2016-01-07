@@ -1,5 +1,13 @@
-GtkTreeView {
-  font-size: 150%;
+GtkWindow {
   background-color: #333;
+}
+
+GtkTreeView {
+  background-color: #333;
+  font-size: 150%;
+  color: white;
+}
+
+GtkSeparator {
   color: white;
 }

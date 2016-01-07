@@ -27,6 +27,8 @@ leader_list_new(players, player_count)
   }
 
   leader_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(leaders));
+  gtk_widget_set_name(leader_list, "leader-list");
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(leader_list), FALSE);
   g_object_unref(G_OBJECT(leaders));
 
   rank_renderer = gtk_cell_renderer_text_new();

@@ -10,7 +10,7 @@ main (argc, argv)
   int argc;
   char **argv;
 {
-  GtkWidget *window, *leaderboard, *leader_list, *stat_list;
+  GtkWidget *window, *leaderboard, *leader_list, *stat_list, *separator;
   GdkScreen *screen;
   GtkCssProvider *css;
   int player_count = 0, game_count = 0, result = 0;
@@ -78,6 +78,8 @@ main (argc, argv)
 
   /* Setup leaderboard */
   leaderboard = gtk_grid_new();
+  gtk_grid_set_column_spacing(GTK_GRID(leaderboard), 10);
+  gtk_grid_set_row_spacing(GTK_GRID(leaderboard), 10);
 
   leader_list = leader_list_new(players, player_count);
   gtk_widget_set_hexpand(leader_list, TRUE);
@@ -87,12 +89,16 @@ main (argc, argv)
   gtk_grid_attach(GTK_GRID(leaderboard), leader_list, 0, 0, 1, 1);
   gtk_widget_show(leader_list);
 
+  separator = gtk_separator_new(GTK_ORIENTATION_VERTICAL);
+  gtk_grid_attach(GTK_GRID(leaderboard), separator, 1, 0, 1, 1);
+  gtk_widget_show(separator);
+
   stat_list = stat_list_new(stats);
   gtk_widget_set_hexpand(stat_list, TRUE);
   gtk_widget_set_vexpand(stat_list, TRUE);
   gtk_widget_set_halign(stat_list, GTK_ALIGN_FILL);
   gtk_widget_set_valign(stat_list, GTK_ALIGN_FILL);
-  gtk_grid_attach(GTK_GRID(leaderboard), stat_list, 1, 0, 1, 1);
+  gtk_grid_attach(GTK_GRID(leaderboard), stat_list, 2, 0, 1, 1);
   gtk_widget_show(stat_list);
 
   gtk_container_add(GTK_CONTAINER(window), leaderboard);

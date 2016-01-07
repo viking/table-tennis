@@ -77,6 +77,8 @@ stat_list_new(stats)
   free(text);
 
   stat_list = gtk_tree_view_new_with_model(GTK_TREE_MODEL(store));
+  gtk_widget_set_name(stat_list, "stat-list");
+  gtk_tree_view_set_headers_visible(GTK_TREE_VIEW(stat_list), FALSE);
   g_object_unref(G_OBJECT(store));
 
   name_renderer = gtk_cell_renderer_text_new();
